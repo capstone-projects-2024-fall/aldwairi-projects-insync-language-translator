@@ -3,14 +3,23 @@
 
 <head>
     <title>HTML Login Form</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <script>
+        function solve() {
+            // Prevent the form from submitting (if needed)
+            event.preventDefault();
+            
+            // Redirect to another page
+            window.location.href = "homepage.html";
+        }
+    </script>
 </head>
 
 <body>
     <div class="main">
         <h1>InSync Language Translator</h1>
         <h3>Enter your login credentials</h3>
-        <form action="">
+        <form>
             <label for="first">
                 Username:
             </label>
