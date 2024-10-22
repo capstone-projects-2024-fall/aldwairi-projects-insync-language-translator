@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile | InSync</title>
+  <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+  <nav>
+    <div class="menu">
+      <div class="logo">
+        <a href="#">InSync</a>
+      </div>
+      <ul>
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="#">Account</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1 id="userName" contenteditable="false">John Doe</h1>
+      <button id="editButton" onclick="toggleEditMode()">Edit Profile</button>
+      <button id="saveButton" onclick="saveChanges()" style="display:none;">Save Changes</button>
+    </div>
+
+    <div class="profile-details">
+    
+      <h2>Account Information</h2>
+      <ul>
+        <li><strong>Email:</strong> <span id="userEmail" contenteditable="false">InSync@temple.edu</span></li>
+        <li><strong>Username:</strong> <span id="userPhone" contenteditable="false">InSyncDemo</span></li>
+        <li><strong>Password:</strong> <span id="userLocation" contenteditable="false">*******</span></li>
+      </ul>
+
+      <h2></h2>
+    
+      </ul>
+    </div>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html>

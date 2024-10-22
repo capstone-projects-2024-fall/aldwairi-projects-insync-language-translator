@@ -10,11 +10,12 @@
   background: #fff;
 }
 nav{
-  position: fixed;
+  top: 0; 
+  left: 0; 
   background: #1b1b1b;
   width: 100%;
   padding: 10px 0;
-  z-index: 12;
+  z-index: 12; 
 }
 nav .menu{
   max-width: 1250px;
@@ -116,3 +117,127 @@ nav .menu{
   background: white;
   color: black;
 }
+
+/* General styles for the homepage */
+body {
+  background-color: #f0f0f0;
+}
+
+.homepage-container {
+  text-align: center;
+  padding: 100px 20px;
+  color: #333;
+}
+
+.homepage-title h1 {
+  font-size: 50px;
+  color: #1b1b1b;
+  margin-bottom: 20px;
+}
+
+.homepage-title p {
+  font-size: 18px;
+  color: #666;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.nav-button {
+  display: inline-block;
+  padding: 20px 40px;
+  margin: 0 15px;
+  font-size: 20px;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #2980b9;
+}
+
+
+/* Profile Page Styles */
+.profile-container {
+  max-width: 40%;
+  margin: 150px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #3498db;
+}
+
+.user-name {
+  font-size: 35px;
+  margin: 10px 0;
+  color: #fff;
+}
+
+.user-title {
+  font-size: 18px;
+  color: #bbb;
+}
+
+.profile-details {
+  padding: 20px;
+  color: #fff;
+}
+
+h2 {
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
