@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <title>HTML Login Form</title>
+    <title>HTML Sign-Up Form</title>
     <link rel="stylesheet" href="login.css">
     <script>
-        function solve() {
+        function signup() {
             // Prevent the form from submitting (if needed)
             event.preventDefault();
             
-            // Redirect to another page
+            // Redirect to another page (homepage after sign-up)
             window.location.href = "homepage.html";
         }
     </script>
@@ -18,12 +18,17 @@
 <body>
     <div class="main">
         <h1>InSync Language Translator</h1>
-        <h3>Enter your login credentials</h3>
+        <h3>Create your account</h3>
         <form>
-            <label for="first">
+            <label for="email">
+                Email:
+            </label>
+            <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+
+            <label for="username">
                 Username:
             </label>
-            <input type="text" id="first" name="first" placeholder="Enter your Username" required>
+            <input type="text" id="username" name="username" placeholder="Enter your Username" required>
 
             <label for="password">
                 Password:
@@ -31,14 +36,14 @@
             <input type="password" id="password" name="password" placeholder="Enter your Password" required>
 
             <div class="wrap">
-                <button type="submit" onclick="solve()">
-                    Submit
+                <button type="submit" onclick="signup()">
+                    Sign Up
                 </button>
             </div>
         </form>
-        <p>Not registered?
-            <a href="signup.html" style="text-decoration: none;">
-                Create an account
+        <p>Already have an account?
+            <a href="login.html" style="text-decoration: none;">
+                Login here
             </a>
         </p>
     </div>
