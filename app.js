@@ -1,3 +1,4 @@
+require('dotenv').config();  // Load environment variables from .env
 const express = require("express");
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
@@ -11,10 +12,11 @@ app.use("/images", express.static("images"));   // For image files
 
 // Database connection
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "UmaizaSehrish1#2",
-    database: "node"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 connection.connect(function (error) {
@@ -46,9 +48,8 @@ app.post("/", encoder, (req, res) => {
 
 //when login success
 app.get("/homepage", function (req, res) {
-    res.sendFile(__dirname + "/homepage.html")
+    res.sendFile(__dirname + "/homepage.html");
 })
-
 
 // Serve profile page
 app.get("/profile", (req, res) => {
@@ -64,9 +65,10 @@ app.get("/signup", (req, res) => {
 app.post("/signup", encoder, (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const email = req.body.email;
 
     // Insert user into the database
-    connection.query("INSERT INTO login_user (user_name, pass) VALUES (?, ?)", [username, password], (error, results) => {
+    connection.query("INSERT INTO login_user (user_name, pass, user_email) VALUES (?, ?, ?)", [username, password, email], (error, results) => {
         if (error) {
             console.error(error);
             res.send("<script>alert('Signup failed. Please try again.'); window.location.href='/signup';</script>");
@@ -76,13 +78,8 @@ app.post("/signup", encoder, (req, res) => {
     });
 });
 
-//when signup success
-app.get("/homepage", function (req, res) {
-    res.sendFile(__dirname + "/homepage.html")
-})
-
 // Start the server
-const PORT = 4500;
+const PORT = process.env.PORT || 4500; // Use the port from environment variables if set, otherwise default to 4500
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
