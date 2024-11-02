@@ -169,7 +169,7 @@ body {
 }
 
 
-/* Profile Page Styles  */
+/* Profile Page Styles */
 .profile-container {
   max-width: 75%;
   min-height: 600px;
@@ -249,7 +249,7 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px; /* Space between the boxes */
+  gap: 40px; /* The Space between the boxes */
   margin: 100px auto;
   max-width: 80%;
 }
