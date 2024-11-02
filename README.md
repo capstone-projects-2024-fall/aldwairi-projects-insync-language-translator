@@ -1,6 +1,6 @@
 # InSync Voice Translator
 
-# Packages to install:
+Packages to install:
 pip install transformers
 sentencepiece
 torch torchvision
