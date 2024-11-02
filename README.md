@@ -8,22 +8,33 @@ fasttext-langdetect
 
 # To run, navigate to your project folder
 
-First ensure you have mysql and node.js installed in your computer
+First ensure you have mysql and node.js installed in your computer, and make sure mysql is added to system path
 
-# Clone the repo and navigate to the repo folder
-cd /path/to/your/project 
+# Run the following command to create database "node"
 
-# Import the .sql file
-mysql -u your_mysql_user -p your_database_name < path/to/user_db.sql
+Open Command Prompt (Windows) or Terminal (macOS).
 
-# Create a .env file, and copy the following template in the file
+mysql -u root -p
+
+Enter your mysql password
+
+Create database node;
+
+Type exit to leave the mysql prompt
+
+# Import the .sql file from github repo directory
+mysql -u your_mysql_user -p node < path/user_db.sql
+
+Then, Enter your mysql password.  
+
+# Go to VScode and edit the .env file according to your user credentials
 DB_HOST=localhost           # Use localhost for local development
 DB_USER=root                 # Replace with your username
 DB_PASSWORD="Your mysql password"   # Replace with your MySQL password
-DB_NAME=node                # Ensure this matches the name of the imported database
+DB_NAME=node                # Database name, ensure it matches the database name you used while creating
 DB_PORT=3306                # Default MySQL port
 
-# Install dependencies
+# Install node js dependencies
 npm install          
 # Start the application      
 node app.js                
