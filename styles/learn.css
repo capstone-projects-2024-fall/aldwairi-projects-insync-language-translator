@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+::selection {
+    color: #000;
+    background: #fff;
+}
+
+nav {
+    top: 0;
+    left: 0;
+    background: #1b1b1b;
+    width: 100%;
+    padding: 10px 20px;
+    z-index: 12;
+}
+
+nav .menu {
+    max-width: 1250px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.menu ul {
+    display: inline-flex;
+}
+
+.menu ul li {
+    list-style: none;
+}
+
+.menu .logo a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 35px;
+    font-weight: 100;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.menu ul li a:hover {
+    background: #fff;
+    color: black;
+}
+
+
+.learn-container {
+    max-width: 800px;
+    margin: 50px auto; 
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
+    color: #333; 
+}
+
+/* Headings */
+h1 {
+    font-size: 48px; 
+    color: #1b1b1b; 
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 20px; 
+    margin-bottom: 20px;
+    color: #666; 
+}
+
+
+.topics-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+/* Button styling */
+.topic-button {
+    display: inline-block;
+    padding: 15px; 
+    background: #3498db; 
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px; 
+    transition: background 0.3s ease, transform 0.3s ease; 
+    font-size: 24px; 
+}
+
+.topic-button:hover {
+    background: #2980b9; 
+    transform: translateY(-2px); 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #007acc;
+    color: white;
+    padding: 15px;
+}
+
+nav .menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.lesson-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-container h1 {
+    font-size: 24px;
+}
+
+.back-button-container {
+    margin-top: 20px; /* Space above the back button */
+}
+
+.back-button {
+    display: inline-block; /* Make the link behave like a button */
+    padding: 10px 15px; /* Padding for the button */
+    background-color: #007acc; /* Background color */
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.back-button:hover {
+    background-color: #005fa3; /* Darker shade on hover */
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #007acc;
+    color: white;
+}
