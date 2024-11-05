@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translation Center | InSync</title>
+  <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+  <nav>
+    <div class="menu">
+      <div class="logo">
+        
+        <a href="homepage.html">
+            <img src="logos.png" alt="InSync Logo" class="logo-img">
+      </a>
+      </div>
+      <ul>
+        <li><a href="homepage.html">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="center-container">
+    <div class="text-box">
+      <textarea id="inputText" placeholder="Enter text to translate..." oninput="updateCharCount('inputText', 'inputCharCount')"></textarea>
+      <select class="language-dropdown" aria-label="Select input language">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <!-- Add more languages as needed -->
+      </select>
+      <span id="inputCharCount" class="char-count">0 characters</span>
+    </div>
+    
+    <div class="text-box">
+      <textarea id="outputText" placeholder="Translation output will appear here..." readonly oninput="updateCharCount('outputText', 'outputCharCount')"></textarea>
+      <select class="language-dropdown" aria-label="Select output language">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <!-- Add more languages as needed -->
+      </select>
+      <span id="outputCharCount" class="char-count">0 characters</span>
+    </div>
+  </div>
+  <!-- delete comment-->
+
+  <div class="translate-button-container">
+    <button class="translate-button">Translate</button>
+  </div>
+
+  <script>
+    function updateCharCount(textareaId, charCountId) {
+      const textarea = document.getElementById(textareaId);
+      const charCount = textarea.value.length;
+      document.getElementById(charCountId).textContent = `${charCount} characters`;
+    }
+  </script>
+</body>
+</html>

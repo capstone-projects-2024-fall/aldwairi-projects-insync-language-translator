@@ -242,3 +242,138 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Translate page styles*/
+
+/* Center Container */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* The Space between the boxes */
+  margin: 100px auto;
+  max-width: 80%;
+}
+
+.text-box {
+  flex: 1; /* Each box takes up equal space */
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.text-box textarea {
+  width: 100%;
+  height: 400px;
+  resize: none; /* Prevent resizing */
+  padding: 20px;
+  font-size: 50px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  margin-bottom: 15px;
+}
+
+.text-box textarea:focus {
+  font-size: 50px;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.language-dropdown {
+  font-size: 24px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+.translate-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.translate-button {
+  font-size: 30px;
+  padding: 15px 30px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.translate-button:hover {
+  background-color: #2980b9;
+}
+
+.char-count{
+  font-size: 18px;
+  color: #666;
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+/* Basic Styles for the History page */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f0f0; /* Light background for contrast */
+  margin: 0;
+  padding: 0;
+}
+
+/* History Container */
+.history-container {
+  max-width: 80%; /* Limit the width for readability */
+  margin: 100px auto; /* Center the container */
+  padding: 20px; /* Add padding around the content */
+  background: #ffffff; /* White background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Header Styles */
+.history-container h1 {
+  font-size: 40px; /* Size of the title */
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Space below the title */
+}
+
+/* Table Styles */
+table {
+  width: 100%; /* Full width for the table */
+  border-collapse: collapse; /* Merge table borders */
+  margin-top: 20px; /* Space above the table */
+  min-height: 600px;
+}
+
+/* Table Header and Data Cells */
+th, td {
+  padding: 20px; /* Space inside each cell */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ccc; /* Bottom border for separation */
+  font-size: 24px;
+}
+
+/* Header Background and Text Color */
+th {
+  background-color: #3498db; /* Blue background for header */
+  color: white; /* White text for header */
+}
+
+/* Row Hover Effect */
+tr:hover {
+  background-color: #f1f1f1; /* Light background on hover for rows */
+}
+
+/* Timestamp Style */
+.timestamp {
+  font-size: 24px; /* Smaller font for timestamps */
+  color: #666; /* Gray color for timestamp */
+}
