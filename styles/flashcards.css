@@ -1,0 +1,131 @@
+/* styles.css */
+
+/* General styles */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc; /* Light background for contrast */
+    margin: 0;
+    padding: 0; /* Remove top/bottom padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container styles */
+#root {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Title styles */
+.flashcard-title {
+    text-align: center;
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    width: 100%; /* Make the title take up the full width */
+}
+
+.flashcard-title h1 {
+    margin: 0; /* Remove default margin from h1 */
+}
+
+.flashcard-title p {
+    margin-top: 10px; /* Add some space between title and subtitle */
+    color: #6c757d; /* Lighter color for subtitle */
+    font-size: 1.2rem; /* Smaller font size for subtitle */
+}
+
+/* Select box styles */
+select {
+    padding: 12px;
+    margin: 5px;
+    border: 1px solid #007bff; /* Blue border for consistency */
+    border-radius: 6px; /* Rounded corners for select boxes */
+    font-size: 16px; /* Font size for readability */
+    background-color: #f8f9fa; /* Light background for select boxes */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+    width: 100%; /* Full width for select boxes */
+}
+
+/* Select box focus effect */
+select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #0056b3; /* Darker blue on focus */
+}
+
+/* Card styles */
+.card {
+    height: 200px; /* Height of the card */
+    width: 100%; /* Full width of the parent */
+    border: 2px solid #007bff; /* Blue border for consistency */
+    border-radius: 12px; /* Rounded corners */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-size: 2rem; /* Font size for card text */
+    cursor: pointer; /* Pointer cursor for interactive element */
+    background-color: #e9ecef; /* Slightly darker background for card */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    margin-bottom: 20px; /* Space between cards and buttons */
+}
+
+/* Card hover effect */
+.card:hover {
+    background-color: #dee2e6; /* Change background on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Button styles */
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none; /* No border */
+    border-radius: 6px; /* Rounded corners */
+    background-color: #007bff; /* Bootstrap primary color */
+    color: #ffffff; /* White text */
+    font-size: 16px; /* Larger font */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+    width: 100%; /* Full width for buttons */
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Text styles for current card indicator */
+.text-sm {
+    font-size: 14px; /* Smaller font for card count */
+    color: #6c757d; /* Gray color for text */
+    text-align: center; /* Centered text */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 10px; /* Less padding on smaller screens */
+    }
+    #root {
+        padding: 15px; /* Less padding on root container */
+    }
+    h1 {
+        font-size: 2rem; /* Smaller title on mobile */
+    }
+    .card {
+        height: 180px; /* Smaller height for mobile */
+        font-size: 1.5rem; /* Smaller font size */
+    }
+}
