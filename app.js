@@ -51,6 +51,31 @@ app.get("/homepage", function (req, res) {
     res.sendFile(__dirname + "/homepage.html");
 })
 
+//Serve translate page
+app.get("/translate", function (req, res){
+    res.sendFile(__dirname + "/translate.html");
+})
+
+//Serve history page
+app.get("/history", function (req, res){
+    res.sendFile(__dirname + "/history.html");
+})
+
+//Serve learn page
+app.get("/learn", function (req, res){
+    res.sendFile(__dirname + "/learn.html");
+})
+
+//Serve flashcard page
+app.get("/flashcard", function (req, res){
+    res.sendFile(__dirname + "/flashcards.html");
+})
+
+//Serve dictionary page
+app.get("/dictionary", function (req, res){
+    res.sendFile(__dirname + "/dictionary.html");
+})
+
 // Serve profile page
 app.get("/profile", (req, res) => {
     res.sendFile(__dirname + "/profile.html");
