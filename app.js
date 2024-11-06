@@ -51,6 +51,16 @@ app.get("/homepage", function (req, res) {
     res.sendFile(__dirname + "/homepage.html");
 })
 
+//Serve translate page
+app.get("/translate", function (req, res){
+    res.sendFile(__dirname + "/translate.html");
+})
+
+//Serve history page
+app.get("/history", function (req, res){
+    res.sendFile(__dirname + "/history.html");
+})
+
 // Serve profile page
 app.get("/profile", (req, res) => {
     res.sendFile(__dirname + "/profile.html");
