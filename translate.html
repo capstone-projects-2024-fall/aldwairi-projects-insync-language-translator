@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="styles/homepage.css">
 </head>
 <body>
+  <!-- Navigation Bar -->
   <nav>
     <div class="menu">
       <div class="logo">
-        
         <a href="homepage">
-            <img src="images/logos.png" alt="InSync Logo" class="logo-img">
-      </a>
+          <img src="images/logos.png" alt="InSync Logo" class="logo-img">
+        </a>
       </div>
       <ul>
         <li><a href="homepage">Home</a></li>
@@ -21,41 +21,76 @@
     </div>
   </nav>
 
+  <!-- Main Content Section -->
   <div class="center-container">
+    <!-- Input Text Area -->
     <div class="text-box">
       <textarea id="inputText" placeholder="Enter text to translate..." oninput="updateCharCount('inputText', 'inputCharCount')"></textarea>
-      <select class="language-dropdown" aria-label="Select input language">
-        <option value="en">English</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-        <!-- Add more languages as needed -->
-      </select>
       <span id="inputCharCount" class="char-count">0 characters</span>
     </div>
     
+    <!-- Target Language Selection -->
+    <div class="text-box">
+      <select id="languageDropdown" class="language-dropdown" aria-label="Select target language">
+        <option value="spa_Latn">Spanish</option>
+        <option value="fra_Latn">French</option>
+        <option value="rus_Cyrl">Russian</option>
+        <option value="amh_Ethi">Amharic</option>
+        <option value="zho_Hant">Traditional Mandarin</option>
+        <option value="afr_Latn">Afrikaans</option>
+        <option value="deu_Latn">German</option>
+      </select>
+    </div>
+
+    <!-- Output Text Area -->
     <div class="text-box">
       <textarea id="outputText" placeholder="Translation output will appear here..." readonly oninput="updateCharCount('outputText', 'outputCharCount')"></textarea>
-      <select class="language-dropdown" aria-label="Select output language">
-        <option value="en">English</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-        <!-- Add more languages as needed -->
-      </select>
       <span id="outputCharCount" class="char-count">0 characters</span>
     </div>
   </div>
-  <!-- delete comment-->
 
+  <!-- Translate Button -->
   <div class="translate-button-container">
-    <button class="translate-button">Translate</button>
+    <button class="translate-button" id="translateButton">Translate</button>
   </div>
 
   <script>
+    // Function to update character count dynamically as the user types
     function updateCharCount(textareaId, charCountId) {
       const textarea = document.getElementById(textareaId);
       const charCount = textarea.value.length;
       document.getElementById(charCountId).textContent = `${charCount} characters`;
     }
+
+    // Event listener for Translate button to send input to the Flask server
+    document.getElementById('translateButton').addEventListener('click', async () => {
+      const inputText = document.getElementById('inputText').value;
+      const selectedLang = document.getElementById('languageDropdown').value;
+
+      // Call the Flask API to translate the input text to the selected language
+      try {
+        const response = await fetch('http://127.0.0.1:5000/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            input: inputText,
+            target_lang: selectedLang
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch translation');
+        }
+
+        const data = await response.json();
+        document.getElementById('outputText').value = data.output;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('outputText').value = 'Error occurred. Please try again.';
+      }
+    });
   </script>
 </body>
 </html>
