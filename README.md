@@ -5,6 +5,7 @@ pip install transformers
 sentencepiece
 torch torchvision
 fasttext-langdetect
+gtts
 
 # To run, navigate to your project folder
 
