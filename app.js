@@ -76,6 +76,11 @@ app.get("/dictionary", function (req, res){
     res.sendFile(__dirname + "/dictionary.html");
 })
 
+//Serve quiz page
+app.get("/quiz", function (req, res){
+    res.sendFile(__dirname + "/Quiz.html");
+})
+
 // Serve profile page
 app.get("/profile", (req, res) => {
     res.sendFile(__dirname + "/profile.html");

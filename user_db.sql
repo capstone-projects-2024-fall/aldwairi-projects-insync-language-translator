@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `node` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `node`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: node
@@ -24,10 +26,11 @@ DROP TABLE IF EXISTS `login_user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `login_user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) NOT NULL,
-  `pass` varchar(45) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `pass` varchar(60) NOT NULL,
+  `user_email` varchar(100) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +39,7 @@ CREATE TABLE `login_user` (
 
 LOCK TABLES `login_user` WRITE;
 /*!40000 ALTER TABLE `login_user` DISABLE KEYS */;
-INSERT INTO `login_user` VALUES (1,'towky12','towky'),(2,'jacky12','jacky'),(3,'johndoe@email.com','jonedoe'),(4,'jamesmith@temple.edu','jane'),(5,'alex@temple.edu','alex123');
+INSERT INTO `login_user` VALUES (1,'towky12','toky','towky12@temple.edu'),(2,'jacky12','jacky','jacky12@temple.edu'),(3,'johndoe@email.com','jonedoe','johndoe@email.com'),(4,'jamesmith@temple.edu','jane','jamesmith@temple.edu'),(5,'alex@temple.edu','alex123','alex@temple.edu'),(6,'ex123','example','example@com'),(7,'insync','insync','inysnc@temple.edu'),(8,'t','t','t@temple.edu');
 /*!40000 ALTER TABLE `login_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 23:39:06
+-- Dump completed on 2024-11-20 11:21:47

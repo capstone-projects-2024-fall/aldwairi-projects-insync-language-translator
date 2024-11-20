@@ -1,0 +1,195 @@
+/* styles/quiz.css */
+
+/* General styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f9fc;
+  margin: 0;
+  padding: 0;
+}
+
+.quiz-container {
+  max-width: 900px; /* Increased from 800px */
+  margin: 50px auto;
+  padding: 30px; /* Increased from 20px */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-title {
+  text-align: center;
+  margin-bottom: 30px; /* Increased from 20px */
+}
+
+.quiz-title h1 {
+  margin: 0;
+  font-size: 3rem; /* Increased from 2.5rem */
+}
+
+.quiz-title p {
+  margin-top: 15px; /* Increased from 10px */
+  color: #6c757d;
+  font-size: 1.5rem; /* Increased from 1.2rem */
+}
+
+/* Header selections */
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px; /* Increased from 20px */
+}
+
+.language-selection,
+.category-selection {
+  width: 48%;
+}
+
+select {
+  width: 100%;
+  padding: 15px; /* Increased from 12px */
+  border: 1px solid #007bff;
+  border-radius: 6px;
+  font-size: 1.2rem; /* Increased from 16px */
+  background-color: #f8f9fa;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+/* Start Quiz Button */
+.start-quiz-section {
+  text-align: center;
+  margin: 30px 0; /* Increased from 20px */
+}
+
+.start-quiz-section button {
+  padding: 20px 40px; /* Increased from 12px 20px */
+  font-size: 1.8rem; /* Increased font size */
+  border: none;
+  border-radius: 8px; /* Slightly more rounded */
+  background-color: #0056b3; /* Changed color to green */
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.start-quiz-section button:hover {
+  background-color: #007bff; 
+  transform: translateY(-2px);
+}
+
+/* Question section */
+.question-section {
+  margin-bottom: 25px; /* Increased from 20px */
+}
+
+.question-count {
+  font-size: 1.2rem; /* Increased from 1rem */
+  color: #6c757d;
+  margin-bottom: 15px; /* Increased from 10px */
+}
+
+.question-text {
+  font-size: 2rem; /* Increased from 1.5rem */
+  margin-bottom: 25px; /* Increased from 20px */
+}
+
+/* Answer options */
+.answer-options button {
+  width: 100%;
+  padding: 20px; /* Increased from 15px */
+  margin-bottom: 15px; /* Increased from 10px */
+  border: 1px solid #007bff;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #007bff;
+  font-size: 1.2rem; /* Increased from 1rem */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.answer-options button:hover {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+/* Score section */
+.score-section {
+  text-align: center;
+  margin-top: 30px; /* Added for spacing */
+}
+
+.score-section h2 {
+  font-size: 2.5rem; /* Increased from 2rem */
+  margin-bottom: 25px; /* Increased from 20px */
+}
+
+.score-section button {
+  padding: 20px 40px; /* Increased from 12px 20px */
+  font-size: 1.8rem; /* Increased font size */
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.score-section button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quiz-container {
+    margin: 20px;
+    padding: 20px; /* Increased from 15px */
+  }
+
+  .quiz-title h1 {
+    font-size: 2.5rem; /* Increased from 2rem */
+  }
+
+  .quiz-title p {
+    font-size: 1.2rem; /* Adjusted size */
+  }
+
+  .quiz-header {
+    flex-direction: column;
+  }
+
+  .language-selection,
+  .category-selection {
+    width: 100%;
+    margin-bottom: 15px; /* Increased from 10px */
+  }
+
+  select {
+    font-size: 1.1rem; /* Slightly increased */
+    padding: 12px; /* Adjusted padding */
+  }
+
+  .question-text {
+    font-size: 1.8rem; /* Increased from 1.2rem */
+  }
+
+  .answer-options button {
+    font-size: 1.1rem; /* Increased from 0.9rem */
+    padding: 18px; /* Increased padding */
+  }
+
+  .start-quiz-section button,
+  .score-section button {
+    font-size: 1.6rem; /* Increased font size */
+    padding: 18px 36px; /* Adjusted padding */
+  }
+
+  .question-count {
+    font-size: 1.1rem; /* Increased font size */
+  }
+}
