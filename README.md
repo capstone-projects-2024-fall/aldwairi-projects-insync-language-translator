@@ -11,7 +11,7 @@ gtts
 
 First ensure you have mysql and node.js installed in your computer, and make sure mysql is added to system path
 
-# Run the following command to create database "node"
+# Run the following command and import the .sql file from github repo directory(one time only)
 
 Open Command Prompt (Windows) or Terminal (macOS).
 
@@ -19,11 +19,7 @@ mysql -u root -p
 
 Enter your mysql password
 
-Create database node;
-
-Type exit to leave the mysql prompt
-
-# Import the .sql file from github repo directory
+# Import the .sql file from github repo directory(one time only)
 mysql -u your_mysql_user -p node < path/user_db.sql
 
 Then, Enter your mysql password.  

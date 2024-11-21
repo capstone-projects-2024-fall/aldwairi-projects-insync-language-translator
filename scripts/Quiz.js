@@ -64,7 +64,7 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isQuizStarted, setIsQuizStarted] = useState(false); // NEW state for quiz start
+  const [isQuizStarted, setIsQuizStarted] = useState(false); 
 
   // Function to load quiz questions
   const loadQuiz = async () => {
