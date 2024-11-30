@@ -6,6 +6,18 @@ const bodyParser = require("body-parser");
 const app = express();
 const encoder = bodyParser.urlencoded();
 
+const session = require('express-session');
+
+app.use(session({
+    secret: 'InSyncFall2024', // Secret key
+    resave: false,
+    saveUninitialized: false,
+}));
+
+
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+
 app.use("/styles", express.static("styles")); // For css files
 app.use("/scripts", express.static("scripts")); // For JavaScript files
 app.use("/images", express.static("images"));   // For image files
@@ -39,12 +51,14 @@ app.post("/", encoder, (req, res) => {
             console.error(error);
             res.redirect("/");
         } else if (results.length > 0) {
+            req.session.user = results[0]; // Store user info in the session
             res.redirect("/homepage");
         } else {
             res.send("<script>alert('Wrong user information. Please try again.'); window.location.href='/';</script>");
         }
     });
 });
+
 
 //when login success
 app.get("/homepage", function (req, res) {
@@ -83,8 +97,43 @@ app.get("/quiz", function (req, res){
 
 // Serve profile page
 app.get("/profile", (req, res) => {
-    res.sendFile(__dirname + "/profile.html");
+    if (!req.session.user) {
+        return res.redirect("/"); // Redirect to login if not logged in
+    }
+
+    const user = req.session.user; // Retrieve user info from session
+    res.render("profile.ejs", { user });
 });
+
+//profile update
+app.post("/profile/update", encoder, (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    const { user_name, user_email, pass } = req.body;
+    const userId = req.session.user.user_id; 
+
+    connection.query(
+        "UPDATE login_user SET user_name = ?, user_email = ?, pass=? WHERE user_id = ?",
+        [user_name, user_email, pass, userId],
+        (error, results) => {
+            if (error) {
+                console.error("Database update error:", error);
+                return res.status(500).send("Error updating profile");
+            }
+
+            // Update the session with the new data
+            req.session.user.user_name = user_name;
+            req.session.user.user_email = user_email;
+            req.session.user.pass = pass;
+
+            res.send({ success: true });
+        }
+    );
+});
+
+
 
 //Serve signup page
 app.get("/signup", (req, res) => {
