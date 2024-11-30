@@ -64,3 +64,9 @@ button {
     justify-content: center;
     align-items: center;
 }
+
+#error-message {
+    color: red;
+    display: none;
+    margin-top: 10px;
+}

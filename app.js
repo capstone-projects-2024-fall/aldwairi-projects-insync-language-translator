@@ -54,7 +54,7 @@ app.post("/", encoder, (req, res) => {
             req.session.user = results[0]; // Store user info in the session
             res.redirect("/homepage");
         } else {
-            res.send("<script>alert('Wrong user information. Please try again.'); window.location.href='/';</script>");
+            res.redirect("/?error=invalid-credentials");
         }
     });
 });
