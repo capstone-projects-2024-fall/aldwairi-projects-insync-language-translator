@@ -9,27 +9,7 @@ gtts
 
 # To run, navigate to your project folder
 
-First ensure you have mysql and node.js installed in your computer, and make sure mysql is added to system path
-
-# Run the following command and import the .sql file from github repo directory(one time only)
-
-Open Command Prompt (Windows) or Terminal (macOS).
-
-mysql -u root -p
-
-Enter your mysql password
-
-# Import the .sql file from github repo directory(one time only)
-mysql -u your_mysql_user -p node < path/user_db.sql
-
-Then, Enter your mysql password.  
-
-# Go to VScode and edit the .env file according to your user credentials
-DB_HOST=localhost           # Use localhost for local development
-DB_USER=root                 # Replace with your username
-DB_PASSWORD="Your mysql password"   # Replace with your MySQL password
-DB_NAME=node                # Database name, ensure it matches the database name you used while creating
-DB_PORT=3306                # Default MySQL port
+Ensure you have node.js installed in your computer
 
 # Install node js dependencies
 npm install          
