@@ -1,4 +1,4 @@
-require('dotenv').config();  // Load environment variables from .env
+
 const express = require("express");
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
@@ -24,15 +24,18 @@ app.use("/images", express.static("images"));   // For image files
 
 // Database connection
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    host: '35.238.196.2', //public ip address
+    user: 'root',
+    password: 'Insync',
+    database: 'node',
+    port: 3306
 });
 
-connection.connect(function (error) {
-    if (error) throw error;
+connection.connect((err)=> {
+    if (err) {
+        console.error('Error connecting to the database:', err);
+        return;
+    }
     console.log("Connected to the database successfully");
 });
 
