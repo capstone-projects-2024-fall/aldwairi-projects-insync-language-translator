@@ -7,11 +7,11 @@ torch torchvision
 fasttext-langdetect
 gtts
 
-# To run, navigate to your project folder
-
-Ensure you have node.js installed in your computer
+Ensure you have node.js installed in your computer.
 
 # Install node js dependencies
 npm install          
 # Start the application      
-node app.js                
+node app.js     
+# Open new terminal and run following command
+python app.py
