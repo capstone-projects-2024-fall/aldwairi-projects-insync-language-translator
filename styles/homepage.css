@@ -377,3 +377,25 @@ tr:hover {
   font-size: 24px; /* Smaller font for timestamps */
   color: #666; /* Gray color for timestamp */
 }
+
+/* Add this to your styles/homepage.css */
+.save-button-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#saveBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #3498db; /* Or any color you prefer */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#saveBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+

@@ -31,6 +31,8 @@ const connection = mysql.createConnection({
     port: 3306
 });
 
+
+
 connection.connect((err)=> {
     if (err) {
         console.error('Error connecting to the database:', err);
@@ -74,9 +76,9 @@ app.get("/translate", function (req, res){
 })
 
 //Serve history page
-app.get("/history", function (req, res){
-    res.sendFile(__dirname + "/history.html");
-})
+//app.get("/history", function (req, res){
+  //  res.sendFile(__dirname + "/history.html");
+//})
 
 //Serve learn page
 app.get("/learn", function (req, res){
@@ -159,6 +161,49 @@ app.post("/signup", encoder, (req, res) => {
         }
     });
 });
+
+// Handle saving translation
+app.post('/save_translation', express.json(), (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const userId = req.session.user.user_id;
+    const { original_text, translate_text, target_lang } = req.body;
+    const timestamp = new Date();
+
+    connection.query(
+        "INSERT INTO history (user_id, original_text, translate_text, target_lang, timestamp) VALUES (?, ?, ?, ?, ?)",
+        [userId, original_text, translate_text, target_lang, timestamp],
+        (error, results) => {
+            if (error) {
+                console.error("Database insert error:", error);
+                res.status(500).send({ error: 'Error saving translation' });
+            } else {
+                res.send({ status: 'success' });
+            }
+        }
+    );
+});
+
+// Serve history page
+app.get("/history", function (req, res){
+    if (!req.session.user) {
+        return res.redirect("/"); // Redirect to login if not logged in
+    }
+
+    const userId = req.session.user.user_id;
+
+    connection.query("SELECT * FROM history WHERE user_id = ? ORDER BY timestamp DESC", [userId], (error, results) => {
+        if (error) {
+            console.error("Database query error:", error);
+            res.status(500).send("Error retrieving translation history");
+        } else {
+            res.render("history.ejs", { translations: results });
+        }
+    });
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 4500; // Use the port from environment variables if set, otherwise default to 4500

@@ -47,6 +47,11 @@
       <textarea id="outputText" placeholder="Translation output will appear here..." readonly oninput="updateCharCount('outputText', 'outputCharCount')"></textarea>
       <span id="outputCharCount" class="char-count">0 characters</span>
     </div>
+
+    <!-- Save Button -->
+    <div class="save-button-container">
+      <button id="saveBtn" disabled>Save Translation</button>
+    </div>
   </div>
 
   <!-- Translate Button -->
@@ -86,10 +91,46 @@
 
         const data = await response.json();
         document.getElementById('outputText').value = data.output;
+
+        // Enable the Save button after translation
+        document.getElementById('saveBtn').disabled = false;
       } catch (error) {
         console.error('Error:', error);
         document.getElementById('outputText').value = 'Error occurred. Please try again.';
       }
+    });
+
+    // Event listener for Save button to send translation data to the server
+    document.getElementById('saveBtn').addEventListener('click', function() {
+      const originalText = document.getElementById('inputText').value;
+      const translatedText = document.getElementById('outputText').value;
+      const targetLang = document.getElementById('languageDropdown').value;
+
+      fetch('/save_translation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          original_text: originalText,
+          translate_text: translatedText,
+          target_lang: targetLang
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Translation saved successfully!');
+          // Optionally disable the Save button again
+          document.getElementById('saveBtn').disabled = true;
+        } else {
+          alert('Error saving translation: ' + data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error saving translation.');
+      });
     });
   </script>
 </body>
