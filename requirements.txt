@@ -1,0 +1,9 @@
+flask
+flask_cors
+transformers
+sentencepiece
+torch 
+torchvision
+fasttext-langdetect
+gtts
+google-cloud-speech
