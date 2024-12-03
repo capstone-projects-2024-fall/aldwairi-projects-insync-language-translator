@@ -100,6 +100,11 @@ app.get("/quiz", function (req, res){
     res.sendFile(__dirname + "/Quiz.html");
 })
 
+//Serve Tutorial page
+app.get("/tutorial", function (req, res){
+    res.sendFile(__dirname + "/tutorial.html");
+})
+
 // Serve profile page
 app.get("/profile", (req, res) => {
     if (!req.session.user) {
