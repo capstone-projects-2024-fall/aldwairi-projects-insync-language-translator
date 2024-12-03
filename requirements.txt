@@ -6,3 +6,4 @@ torch
 torchvision
 fasttext-langdetect
 gtts
+google-cloud-speech
