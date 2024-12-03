@@ -52,6 +52,15 @@
     <div class="save-button-container">
       <button id="saveBtn" disabled>Save Translation</button>
     </div>
+    
+    <!-- Audio Player -->
+    <div class="audio-player-container">
+      <audio id="audioPlayer" controls class="styled-audio-player" style="display: none;"></audio>
+      <div class="progress-container">
+        <progress id="audioProgress" class="audio-progress" value="0" max="100"></progress>
+      </div>
+    </div>
+
   </div>
 
   <!-- Translate Button -->
@@ -94,6 +103,13 @@
 
         // Enable the Save button after translation
         document.getElementById('saveBtn').disabled = false;
+
+        // Audio handling
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = data.audio;  // Set the audio source to the Flask response URL
+        audioPlayer.style.display = "block"; // Display the audio player
+        audioPlayer.play(); // Automatically play the audio after loading
+
       } catch (error) {
         console.error('Error:', error);
         document.getElementById('outputText').value = 'Error occurred. Please try again.';
@@ -132,6 +148,28 @@
         alert('Error saving translation.');
       });
     });
+
+    // Event listener for when the audio is playing
+    document.getElementById('audioPlayer').addEventListener('play', function() {
+      const audioPlayer = document.getElementById('audioPlayer');
+      const progressBar = document.getElementById('audioProgress');
+
+      // Update progress bar as the audio plays
+      const updateProgress = () => {
+        const value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressBar.value = value;
+      };
+
+      // Update the progress every 100ms
+      const intervalId = setInterval(updateProgress, 100);
+
+      // Stop updating when the audio finishes
+      audioPlayer.addEventListener('ended', function() {
+        clearInterval(intervalId);
+        progressBar.value = 100; // Ensure progress bar is full when the audio ends
+      });
+    });
   </script>
 </body>
 </html>
+
