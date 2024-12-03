@@ -9,7 +9,7 @@ const encoder = bodyParser.urlencoded();
 const session = require('express-session');
 
 app.use(session({
-    secret: 'InSyncFall2024', // Secret key
+    secret: 'InSyncFall2024', // Secret key for user session
     resave: false,
     saveUninitialized: false,
 }));
@@ -189,7 +189,7 @@ app.post('/save_translation', express.json(), (req, res) => {
 // Serve history page
 app.get("/history", function (req, res){
     if (!req.session.user) {
-        return res.redirect("/"); // Redirect to login if not logged in
+        return res.redirect("/"); 
     }
 
     const userId = req.session.user.user_id;

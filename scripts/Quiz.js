@@ -1,7 +1,6 @@
-// Quiz.js
 const { useState, useEffect } = React;
 
-const API_KEY = 'AIzaSyCUUd14-5vzarz_paFMmd_nepwE-TZ9FhU'; // Replace with your actual API key
+const API_KEY = 'AIzaSyCUUd14-5vzarz_paFMmd_nepwE-TZ9FhU'; // API key
 
 const quizService = {
   async generateQuiz(language) {
@@ -9,17 +8,14 @@ const quizService = {
       'apple', 'banana', 'car', 'house', 'dog', 'run', 'happy', 'computer', 'water', 'sun',
       'cat', 'tree', 'flower', 'jump', 'read', 'write', 'sad', 'fast', 'phone', 'moon',
       'bird', 'book', 'chair', 'table', 'swim', 'big', 'small', 'food', 'star', 'sky',
-      // Add more words from different categories
     ];
 
-    // Shuffle and select random words
     const shuffledWords = allWords.sort(() => Math.random() - 0.5);
-    const words = shuffledWords.slice(0, 5); // For example, 5 questions
+    const words = shuffledWords.slice(0, 5);
 
     const sourceLanguage = 'en';
     const targetLanguage = getLanguageCode(language);
 
-    // Fetch translations in parallel
     const translationPromises = words.map(word =>
       getTranslatedText(word, sourceLanguage, targetLanguage)
         .then(translatedWord => ({ word, translatedWord }))
@@ -42,6 +38,7 @@ const quizService = {
         questions.push({
           question: `What is the translation of the word '${word}' in ${language}?`,
           options: shuffledOptions,
+          correctAnswer: translatedWord,
         });
       }
     }
@@ -55,7 +52,8 @@ function getLanguageCode(languageName) {
     Spanish: 'es',
     French: 'fr',
     German: 'de',
-    // Add more languages as needed
+    Russian: 'ru',
+    Arabic: 'ar',
   };
   return languageCodes[languageName];
 }
@@ -94,10 +92,8 @@ async function generateDistractors(correctTranslation, targetLanguage) {
     'car', 'house', 'dog', 'cat', 'tree', 'flower', 'run', 'jump', 'swim',
     'read', 'write', 'happy', 'sad', 'fast', 'slow', 'big', 'small', 'computer',
     'phone', 'water', 'food', 'sun', 'moon', 'bird', 'book', 'chair', 'table',
-    // Include more words from different categories
   ];
 
-  // Shuffle distractor words
   const shuffledDistractorWords = distractorWords.sort(() => Math.random() - 0.5);
 
   const translationPromises = shuffledDistractorWords.map(word =>
@@ -111,13 +107,12 @@ async function generateDistractors(correctTranslation, targetLanguage) {
       translatedWord &&
       translatedWord !== correctTranslation
     )
-    .slice(0, 3); // Take first 3 valid distractors
+    .slice(0, 3);
 
   return distractors;
 }
 
 const Quiz = () => {
-  // State variables
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState('Spanish');
@@ -125,8 +120,8 @@ const Quiz = () => {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isQuizStarted, setIsQuizStarted] = useState(false);
+  const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
 
-  // Function to load quiz questions
   const loadQuiz = async () => {
     setLoading(true);
     try {
@@ -135,6 +130,7 @@ const Quiz = () => {
       setCurrentQuestionIndex(0);
       setScore(0);
       setIsQuizFinished(false);
+      setShowCorrectAnswers(false);
     } catch (error) {
       console.error('Error loading quiz:', error);
     }
@@ -159,7 +155,7 @@ const Quiz = () => {
   };
 
   const handleRestart = () => {
-    setIsQuizStarted(false); // Reset quiz start state
+    setIsQuizStarted(false);
     setIsQuizFinished(false);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -172,18 +168,29 @@ const Quiz = () => {
     return <div className="text-center">No questions available.</div>;
 
   return (
-    <div className="quiz-container">
+    
+    <div className="quiz-container"
+      style={{
+        maxWidth: '900px', /* Increased from 800px */
+        margin: '50px auto',
+        padding: '30px', /* Increased from 20px */
+        backgroundColor: '#ffffff',
+        borderRadius: '12px',
+        boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)',
+      }}
+      >
       <div className="quiz-header">
         <div className="language-selection">
           <select
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
-            disabled={isQuizStarted} // Disable changing language during the quiz
+            disabled={isQuizStarted}
           >
             <option value="Spanish">Spanish</option>
             <option value="French">French</option>
             <option value="German">German</option>
-            {/* Add more languages here */}
+            <option value="Russian">Russian</option>
+            <option value="Arabic">Arabic</option>
           </select>
         </div>
       </div>
@@ -198,6 +205,19 @@ const Quiz = () => {
             Your Score: {score} out of {questions.length}
           </h2>
           <button onClick={handleRestart}>Restart Quiz</button>
+          <button onClick={() => setShowCorrectAnswers(true)}>Show Correct Answers</button>
+          {showCorrectAnswers && (
+            <div className="correct-answers-section">
+              <h3>Correct Answers:</h3>
+              <ul>
+                {questions.map((q, index) => (
+                  <li key={index}>
+                    {q.question} - <strong>{q.correctAnswer}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       ) : (
         <div className="question-section">
