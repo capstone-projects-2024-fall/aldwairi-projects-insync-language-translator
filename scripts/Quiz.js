@@ -2,30 +2,38 @@ const { useState, useEffect } = React;
 
 const API_KEY = 'AIzaSyCUUd14-5vzarz_paFMmd_nepwE-TZ9FhU'; // Google API key
 
-// Service to generate quiz
+async function fetchRandomWords(count = 5) {
+  try {
+    const response = await fetch(`https://random-word-api.herokuapp.com/word?number=${count}`);
+    const data = await response.json();
+    return data; // Returns an array of words
+  } catch (error) {
+    console.error('Error fetching random words:', error);
+    return [];
+  }
+}
+
 const quizService = {
   async generateQuiz(language, category = 'translation') {
-    const allWords = [
-      'apple', 'banana', 'car', 'house', 'dog', 'run', 'happy', 'computer', 'water', 'sun',
-      'cat', 'tree', 'flower', 'jump', 'read', 'write', 'sad', 'fast', 'phone', 'moon',
-      'bird', 'book', 'chair', 'table', 'swim', 'big', 'small', 'food', 'star', 'sky',
-    ];
-
     const sentences = [
       'What is your name?',
+      'It is raining today.',
+      'I like programming.',
+      'I study at Temple University.',
       'How are you today?',
       'Where do you live?',
       'What time is it?',
       'Can you help me?',
+      'How are you doing.',
+      'I like to travel a lot.'
     ];
 
-    const shuffledWords = allWords.sort(() => Math.random() - 0.5);
     const shuffledSentences = sentences.sort(() => Math.random() - 0.5);
+    const randomWords = await fetchRandomWords(5); // Fetch 5 random words dynamically
 
-    const words = shuffledWords.slice(0, 5);
     const questions = [];
 
-    for (const word of words) {
+    for (const word of randomWords) {
       let questionText;
       let correctAnswer;
       let distractors = [];
@@ -36,18 +44,18 @@ const quizService = {
           correctAnswer = await getTranslatedText(word, 'en', targetLanguage);
           distractors = await generateDistractors(correctAnswer, targetLanguage);
           questionText = `What is the translation of the word '${word}' in ${language}?`;
-        }  else if (category === 'sentence_translation') {
-          const sentence = shuffledSentences.pop(); 
+        } else if (category === 'sentence_translation') {
+          const sentence = shuffledSentences.pop();
           const targetLanguage = getLanguageCode(language);
           correctAnswer = await getTranslatedText(sentence, 'en', targetLanguage);
           distractors = await generateSentenceDistractors(correctAnswer, targetLanguage);
           questionText = `What is the translation of the sentence: "${sentence}" in ${language}?`;
         }
 
-        if (correctAnswer && distractors.length > 1) {
+        if (correctAnswer && distractors.length > 0) {
           const options = [
             { text: correctAnswer, isCorrect: true },
-            ...distractors.slice(1).map(text => ({ text, isCorrect: false })),
+            ...distractors.map(text => ({ text, isCorrect: false })),
           ].sort(() => Math.random() - 0.5);
 
           questions.push({ question: questionText, options, correctAnswer });
@@ -67,7 +75,6 @@ const quizService = {
   },
 };
 
-// Helper functions
 function getLanguageCode(languageName) {
   const languageCodes = {
     Spanish: 'es',
@@ -109,29 +116,21 @@ async function getTranslatedText(text, sourceLanguage, targetLanguage) {
 }
 
 async function generateDistractors(correctTranslation, targetLanguage) {
-  const distractorWords = [
-    'car', 'house', 'dog', 'cat', 'tree', 'flower', 'run', 'jump', 'swim',
-    'read', 'write', 'happy', 'sad', 'fast', 'slow', 'big', 'small', 'computer',
-    'phone', 'water', 'food', 'sun', 'moon', 'bird', 'book', 'chair', 'table',
-  ];
-
-  const shuffledDistractorWords = distractorWords.sort(() => Math.random() - 0.5);
-
-  const translationPromises = shuffledDistractorWords.map(word =>
+  const randomWords = await fetchRandomWords(4);
+  const translationPromises = randomWords.map(word =>
     getTranslatedText(word, 'en', targetLanguage)
   );
 
   const translatedWords = await Promise.all(translationPromises);
 
-  const word_distractors = translatedWords
-    .filter(translatedWord =>
-      translatedWord &&
-      translatedWord !== correctTranslation
+  const distractors = translatedWords
+    .filter(
+      translatedWord => translatedWord && translatedWord !== correctTranslation
     )
-    .slice(0, 4);
+    .slice(0, 3); // Ensure exactly 3 distractors
 
-  return word_distractors;
-}//end
+  return distractors;
+}
 
 async function generateSentenceDistractors(correctTranslation, targetLanguage) {
   const distractorSentences = [
@@ -140,6 +139,11 @@ async function generateSentenceDistractors(correctTranslation, targetLanguage) {
     'Can you help me with this?',
     'Where are you going?',
     'This is a challenging problem.',
+    'I dont like weather today.',
+    'How was your day today?',
+    'I like reading books.',
+    'I do not want to go to school.',
+    'Python is the most popular programming language.',
   ];
 
   const shuffledSentences = distractorSentences.sort(() => Math.random() - 0.5);
@@ -154,13 +158,10 @@ async function generateSentenceDistractors(correctTranslation, targetLanguage) {
     .filter(translatedSentence =>
       translatedSentence && translatedSentence !== correctTranslation
     )
-    .slice(0, 4); // Limit to 4 distractors
+    .slice(0, 3); // Limit to 3 distractors
 
   return sentence_distractors;
 }//end
-
-
-
 
 // Quiz Component
 const Quiz = () => {
@@ -220,14 +221,7 @@ const Quiz = () => {
     return <div className="text-center">No questions available.</div>;
 
   return (
-    <div className="quiz-container" style={{
-      maxWidth: '900px',
-      margin: '50px auto',
-      padding: '30px',
-      backgroundColor: '#ffffff',
-      borderRadius: '12px',
-      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)',
-    }}>
+    <div className="quiz-container">
       <div className="quiz-header">
         <div className="language-selection">
           <select

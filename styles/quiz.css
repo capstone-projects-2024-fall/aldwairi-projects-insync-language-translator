@@ -1,43 +1,46 @@
-/* styles/quiz.css */
-
 /* General styles */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f7f9fc;
   margin: 0;
   padding: 0;
+  display: flex; /* Added for centering */
+  align-items: center; /* Vertically centers the container */
+  justify-content: center; /* Horizontally centers the container */
+  min-height: 100vh; /* Ensures the body takes up full screen height */
 }
 
 .quiz-container {
-  max-width: 900px; /* Increased from 800px */
-  margin: 50px auto;
-  padding: 30px; /* Increased from 20px */
+  max-width: 900px; /* Adjusted for consistency */
+  padding: 40px; /* Increased padding */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Title Section */
 .quiz-title {
   text-align: center;
-  margin-bottom: 30px; /* Increased from 20px */
+  margin-bottom: 30px;
 }
 
 .quiz-title h1 {
   margin: 0;
-  font-size: 3rem; /* Increased from 2.5rem */
+  font-size: 3.5rem; /* Increased from 3rem */
+  font-weight: bold; /* Added emphasis */
 }
 
 .quiz-title p {
-  margin-top: 15px; /* Increased from 10px */
+  margin-top: 15px;
   color: #6c757d;
-  font-size: 1.5rem; /* Increased from 1.2rem */
+  font-size: 1.8rem; /* Increased from 1.5rem */
 }
 
 /* Header selections */
 .quiz-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px; /* Increased from 20px */
+  margin-bottom: 25px;
 }
 
 .language-selection,
@@ -47,10 +50,10 @@ body {
 
 select {
   width: 100%;
-  padding: 15px; /* Increased from 12px */
+  padding: 18px; /* Increased padding */
   border: 1px solid #007bff;
-  border-radius: 6px;
-  font-size: 1.2rem; /* Increased from 16px */
+  border-radius: 8px; /* More rounded */
+  font-size: 1.5rem; /* Increased font size */
   background-color: #f8f9fa;
   transition: border-color 0.3s;
 }
@@ -63,51 +66,51 @@ select:focus {
 /* Start Quiz Button */
 .start-quiz-section {
   text-align: center;
-  margin: 30px 0; /* Increased from 20px */
+  margin: 30px 0;
 }
 
 .start-quiz-section button {
-  padding: 20px 40px; /* Increased from 12px 20px */
-  font-size: 1.8rem; /* Increased font size */
+  padding: 25px 50px; /* Increased from 20px 40px */
+  font-size: 2rem; /* Increased font size */
   border: none;
-  border-radius: 8px; /* Slightly more rounded */
-  background-color: #0056b3; /* Changed color to green */
+  border-radius: 8px;
+  background-color: #0056b3;
   color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .start-quiz-section button:hover {
-  background-color: #007bff; 
+  background-color: #007bff;
   transform: translateY(-2px);
 }
 
-/* Question section */
+/* Question Section */
 .question-section {
-  margin-bottom: 25px; /* Increased from 20px */
+  margin-bottom: 25px;
 }
 
 .question-count {
-  font-size: 1.2rem; /* Increased from 1rem */
+  font-size: 1.5rem; /* Increased from 1.2rem */
   color: #6c757d;
-  margin-bottom: 15px; /* Increased from 10px */
+  margin-bottom: 20px; /* Increased from 15px */
 }
 
 .question-text {
-  font-size: 2rem; /* Increased from 1.5rem */
-  margin-bottom: 25px; /* Increased from 20px */
+  font-size: 2.5rem; /* Increased from 2rem */
+  margin-bottom: 30px; /* Increased from 25px */
 }
 
-/* Answer options */
+/* Answer Options */
 .answer-options button {
   width: 100%;
-  padding: 20px; /* Increased from 15px */
-  margin-bottom: 15px; /* Increased from 10px */
+  padding: 25px; /* Increased from 20px */
+  margin-bottom: 20px; /* Increased from 15px */
   border: 1px solid #007bff;
-  border-radius: 6px;
+  border-radius: 8px; /* Adjusted for more rounded corners */
   background-color: #ffffff;
   color: #007bff;
-  font-size: 1.2rem; /* Increased from 1rem */
+  font-size: 1.5rem; /* Increased from 1.2rem */
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -117,25 +120,32 @@ select:focus {
   color: #ffffff;
 }
 
-/* Score section */
+/* Score Section */
 .score-section {
   text-align: center;
-  margin-top: 30px; /* Added for spacing */
+  margin-top: 30px;
+  padding: 25px; /* Increased padding */
+  border: 1px solid #007bff;
+  border-radius: 12px; /* Increased radius for consistency */
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .score-section h2 {
-  font-size: 2.5rem; /* Increased from 2rem */
-  margin-bottom: 25px; /* Increased from 20px */
+  font-size: 3rem; /* Increased from 2.5rem */
+  margin-bottom: 30px; /* Increased from 25px */
+  color: #333;
 }
 
 .score-section button {
-  padding: 20px 40px; /* Increased from 12px 20px */
-  font-size: 1.8rem; /* Increased font size */
+  padding: 20px 40px; /* Adjusted for better proportion */
+  font-size: 1.8rem; /* Increased from 1.5rem */
   border: none;
   border-radius: 8px;
   background-color: #007bff;
   color: #ffffff;
   cursor: pointer;
+  margin: 15px; /* Increased margin for better spacing */
   transition: background-color 0.3s, transform 0.3s;
 }
 
@@ -144,52 +154,73 @@ select:focus {
   transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
+/*correct-answers-section*/
+.correct-answers-section {
+  margin-top: 20px; /* Added space above */
+  padding: 20px; /* Added padding for spacing */
+  background-color: #f8f9fa; /* Subtle background for distinction */
+  border: 1px solid #007bff; /* Matching border style */
+  border-radius: 8px; /* Rounded corners for consistency */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for emphasis */
+  font-size: 1.5rem; /* Same font size as others */
+  line-height: 1.8; /* Increased line height for readability */
+}
+
+.correct-answers-section h3 {
+  margin-bottom: 15px; /* Space below the title */
+  font-size: 2rem; /* Same font size as other headings */
+  color: #007bff; /* Highlight the title with a consistent color */
+}
+
+.correct-answers-section ul {
+  list-style-type: none; /* Remove default list style */
+  padding: 0;
+  margin: 0;
+}
+
+.correct-answers-section li {
+  margin-bottom: 10px; /* Add space between items */
+  padding: 10px; /* Add padding to individual answers */
+  border-bottom: 1px solid #ddd; /* Subtle divider between items */
+  font-size: 1.5rem; /* Same font size as other text */
+}
+
+.correct-answers-section li:last-child {
+  border-bottom: none; /* Remove border from last item */
+}
+
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .quiz-container {
     margin: 20px;
-    padding: 20px; /* Increased from 15px */
+    padding: 20px; /* Adjusted for smaller screens */
   }
 
   .quiz-title h1 {
-    font-size: 2.5rem; /* Increased from 2rem */
+    font-size: 2.8rem; /* Reduced slightly for smaller screens */
   }
 
   .quiz-title p {
-    font-size: 1.2rem; /* Adjusted size */
-  }
-
-  .quiz-header {
-    flex-direction: column;
-  }
-
-  .language-selection,
-  .category-selection {
-    width: 100%;
-    margin-bottom: 15px; /* Increased from 10px */
-  }
-
-  select {
-    font-size: 1.1rem; /* Slightly increased */
-    padding: 12px; /* Adjusted padding */
+    font-size: 1.5rem; /* Adjusted for readability */
   }
 
   .question-text {
-    font-size: 1.8rem; /* Increased from 1.2rem */
+    font-size: 2rem; /* Adjusted for smaller screens */
   }
 
   .answer-options button {
-    font-size: 1.1rem; /* Increased from 0.9rem */
-    padding: 18px; /* Increased padding */
+    font-size: 1.3rem; /* Increased slightly */
+    padding: 18px; /* Adjusted padding */
   }
 
   .start-quiz-section button,
   .score-section button {
-    font-size: 1.6rem; /* Increased font size */
+    font-size: 1.6rem; /* Adjusted font size */
     padding: 18px 36px; /* Adjusted padding */
   }
 
   .question-count {
-    font-size: 1.1rem; /* Increased font size */
+    font-size: 1.2rem; /* Increased for better visibility */
   }
 }
