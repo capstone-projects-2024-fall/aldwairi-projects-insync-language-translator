@@ -11,6 +11,7 @@ body {
 }
 
 .quiz-container {
+  margin-top: 200px; /* Ensure there's space between the navbar and quiz container */
   max-width: 900px; /* Adjusted for consistency */
   padding: 40px; /* Increased padding */
   background-color: #ffffff;
