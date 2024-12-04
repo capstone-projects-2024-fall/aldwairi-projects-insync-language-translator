@@ -9,7 +9,7 @@ const encoder = bodyParser.urlencoded();
 const session = require('express-session');
 
 app.use(session({
-    secret: 'InSyncFall2024', // Secret key
+    secret: 'InSyncFall2024', // Secret key for user session
     resave: false,
     saveUninitialized: false,
 }));
@@ -98,6 +98,11 @@ app.get("/dictionary", function (req, res){
 //Serve quiz page
 app.get("/quiz", function (req, res){
     res.sendFile(__dirname + "/Quiz.html");
+})
+
+//Serve Tutorial page
+app.get("/tutorial", function (req, res){
+    res.sendFile(__dirname + "/tutorial.html");
 })
 
 // Serve profile page
@@ -189,7 +194,7 @@ app.post('/save_translation', express.json(), (req, res) => {
 // Serve history page
 app.get("/history", function (req, res){
     if (!req.session.user) {
-        return res.redirect("/"); // Redirect to login if not logged in
+        return res.redirect("/"); 
     }
 
     const userId = req.session.user.user_id;
@@ -201,6 +206,16 @@ app.get("/history", function (req, res){
         } else {
             res.render("history.ejs", { translations: results });
         }
+    });
+});
+
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error during session destruction:", err);
+            return res.status(500).send("Error logging out.");
+        }
+        res.redirect("/"); // Redirect to login page after logout
     });
 });
 

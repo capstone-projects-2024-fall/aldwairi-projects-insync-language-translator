@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards App</title>
-    <link rel="stylesheet" href="styles/flashcards.css">
+    <title>InSync Flashcards App</title>
     <link rel="stylesheet" href="styles/homepage.css">
+    <link rel="stylesheet" href="styles/flashcards.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
     <script src="https://unpkg.com/react/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
@@ -14,8 +14,21 @@
 </head>
 
 <body>
+    <!-- Navigation Section -->
+    <nav>
+        <div class="menu">
+            <div class="logo">
+                <a href="homepage">
+                    <img src="/images/logos.png" alt="InSync Logo" class="logo-img">
+                </a>
+            </div>
+            <ul>
+                <li><a href="/profile">Account</a></li>
+            </ul>
+        </div>
+    </nav>
 
-
+    <!-- Flashcard App Section -->
     <div class="flashcard-container">
         <div class="flashcard-title">
             <h1>Flashcard Learning</h1>

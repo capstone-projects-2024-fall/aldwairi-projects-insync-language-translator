@@ -1,12 +1,7 @@
 /* styles/quiz.css */
 
 /* General styles */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f9fc;
-  margin: 0;
-  padding: 0;
-}
+
 
 .quiz-container {
   max-width: 900px; /* Increased from 800px */
@@ -119,13 +114,19 @@ select:focus {
 
 /* Score section */
 .score-section {
+  position: relative;
+  z-index: 100; /* Ensure it appears above other sections */
   text-align: center;
-  margin-top: 30px; /* Added for spacing */
+  margin-top: 100px;
+  padding: 20px; /* Ensure the score section is not collapsed */
 }
+
+
 
 .score-section h2 {
   font-size: 2.5rem; /* Increased from 2rem */
   margin-bottom: 25px; /* Increased from 20px */
+  color:#000;
 }
 
 .score-section button {
