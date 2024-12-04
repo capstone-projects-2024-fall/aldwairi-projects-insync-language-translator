@@ -3,14 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Learning Tutorials</title>
+    <title>Website Layout | InSync</title> <!-- You can adjust this title as needed -->
+    
+    <!-- Link to homepage CSS and Font Awesome -->
+    <link rel="stylesheet" href="styles/homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    
+    <!-- Link to TailwindCSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- React and Babel scripts -->
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="menu">
+            <div class="logo">
+                <a href="homepage">
+                    <img src="/images/logos.png" alt="InSync Logo" class="logo-img">
+                </a>
+            </div>
+            <ul>
+                <li><a href="/profile">Account</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- React App container -->
     <div id="root"></div>
+
+    <!-- React Component Script -->
     <script type="text/babel" src="scripts/tutorial.js"></script>
 </body>
 </html>

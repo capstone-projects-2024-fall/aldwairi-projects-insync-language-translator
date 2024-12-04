@@ -209,6 +209,15 @@ app.get("/history", function (req, res){
     });
 });
 
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error during session destruction:", err);
+            return res.status(500).send("Error logging out.");
+        }
+        res.redirect("/"); // Redirect to login page after logout
+    });
+});
 
 // Start the server
 const PORT = process.env.PORT || 4500; // Use the port from environment variables if set, otherwise default to 4500
