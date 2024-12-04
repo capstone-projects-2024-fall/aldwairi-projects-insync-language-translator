@@ -1,13 +1,26 @@
 <!-- history.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Translation History</title>
   <link rel="stylesheet" href="/styles/homepage.css">
 </head>
+
 <body>
-  <!-- Include your navigation here -->
+  <nav>
+    <div class="menu">
+      <div class="logo">
+        <a href="homepage">
+          <img src="images/logos.png" alt="InSync Logo" class="logo-img">
+        </a>
+      </div>
+      <ul>
+        <li><a href="homepage">Home</a></li>
+      </ul>
+    </div>
+  </nav>
   <div class="history-container">
     <h1>Translation History</h1>
     <table>
@@ -22,14 +35,23 @@
       <tbody>
         <% translations.forEach(function(translation) { %>
           <tr>
-            <td><%= translation.original_text %></td>
-            <td><%= translation.translate_text %></td>
-            <td><%= translation.target_lang %></td>
-            <td class="timestamp"><%= new Date(translation.timestamp).toLocaleString() %></td>
+            <td>
+              <%= translation.original_text %>
+            </td>
+            <td>
+              <%= translation.translate_text %>
+            </td>
+            <td>
+              <%= translation.target_lang %>
+            </td>
+            <td class="timestamp">
+              <%= new Date(translation.timestamp).toLocaleString() %>
+            </td>
           </tr>
-        <% }); %>
+          <% }); %>
       </tbody>
     </table>
   </div>
 </body>
+
 </html>

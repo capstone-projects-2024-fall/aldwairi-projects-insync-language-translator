@@ -1,49 +1,74 @@
-// Quiz.js
 const { useState, useEffect } = React;
 
-const API_KEY = 'AIzaSyCUUd14-5vzarz_paFMmd_nepwE-TZ9FhU'; // Replace with your actual API key
+const API_KEY = 'AIzaSyCUUd14-5vzarz_paFMmd_nepwE-TZ9FhU'; // Google API key
+
+async function fetchRandomWords(count = 5) {
+  try {
+    const response = await fetch(`https://random-word-api.herokuapp.com/word?number=${count}`);
+    const data = await response.json();
+    return data; // Returns an array of words
+  } catch (error) {
+    console.error('Error fetching random words:', error);
+    return [];
+  }
+}
 
 const quizService = {
-  async generateQuiz(language) {
-    const allWords = [
-      'apple', 'banana', 'car', 'house', 'dog', 'run', 'happy', 'computer', 'water', 'sun',
-      'cat', 'tree', 'flower', 'jump', 'read', 'write', 'sad', 'fast', 'phone', 'moon',
-      'bird', 'book', 'chair', 'table', 'swim', 'big', 'small', 'food', 'star', 'sky',
-      // Add more words from different categories
+  async generateQuiz(language, category = 'translation') {
+    const sentences = [
+      'What is your name?',
+      'It is raining today.',
+      'I like programming.',
+      'I study at Temple University.',
+      'How are you today?',
+      'Where do you live?',
+      'What time is it?',
+      'Can you help me?',
+      'How are you doing.',
+      'I like to travel a lot.'
     ];
 
-    // Shuffle and select random words
-    const shuffledWords = allWords.sort(() => Math.random() - 0.5);
-    const words = shuffledWords.slice(0, 5); // For example, 5 questions
-
-    const sourceLanguage = 'en';
-    const targetLanguage = getLanguageCode(language);
-
-    // Fetch translations in parallel
-    const translationPromises = words.map(word =>
-      getTranslatedText(word, sourceLanguage, targetLanguage)
-        .then(translatedWord => ({ word, translatedWord }))
-    );
-
-    const translations = await Promise.all(translationPromises);
+    const shuffledSentences = sentences.sort(() => Math.random() - 0.5);
+    const randomWords = await fetchRandomWords(5); // Fetch 5 random words dynamically
 
     const questions = [];
 
-    for (const { word, translatedWord } of translations) {
-      if (translatedWord) {
-        const distractors = await generateDistractors(translatedWord, targetLanguage);
-        const options = [
-          { text: translatedWord, isCorrect: true },
-          ...distractors.map(text => ({ text, isCorrect: false })),
-        ];
+    for (const word of randomWords) {
+      let questionText;
+      let correctAnswer;
+      let distractors = [];
 
-        const shuffledOptions = options.sort(() => Math.random() - 0.5);
+      try {
+        if (category === 'translation') {
+          const targetLanguage = getLanguageCode(language);
+          correctAnswer = await getTranslatedText(word, 'en', targetLanguage);
+          distractors = await generateDistractors(correctAnswer, targetLanguage);
+          questionText = `What is the translation of the word '${word}' in ${language}?`;
+        } else if (category === 'sentence_translation') {
+          const sentence = shuffledSentences.pop();
+          const targetLanguage = getLanguageCode(language);
+          correctAnswer = await getTranslatedText(sentence, 'en', targetLanguage);
+          distractors = await generateSentenceDistractors(correctAnswer, targetLanguage);
+          questionText = `What is the translation of the sentence: "${sentence}" in ${language}?`;
+        }
 
-        questions.push({
-          question: `What is the translation of the word '${word}' in ${language}?`,
-          options: shuffledOptions,
-        });
+        if (correctAnswer && distractors.length > 0) {
+          const options = [
+            { text: correctAnswer, isCorrect: true },
+            ...distractors.map(text => ({ text, isCorrect: false })),
+          ].sort(() => Math.random() - 0.5);
+
+          questions.push({ question: questionText, options, correctAnswer });
+        } else {
+          console.warn(`Skipped due to insufficient data.`);
+        }
+      } catch (error) {
+        console.error(`Error generating question:`, error);
       }
+    }
+
+    if (questions.length === 0) {
+      console.warn('No questions generated. Check if API responses are valid.');
     }
 
     return questions;
@@ -55,7 +80,8 @@ function getLanguageCode(languageName) {
     Spanish: 'es',
     French: 'fr',
     German: 'de',
-    // Add more languages as needed
+    Russian: 'ru',
+    Arabic: 'ar',
   };
   return languageCodes[languageName];
 }
@@ -90,51 +116,74 @@ async function getTranslatedText(text, sourceLanguage, targetLanguage) {
 }
 
 async function generateDistractors(correctTranslation, targetLanguage) {
-  const distractorWords = [
-    'car', 'house', 'dog', 'cat', 'tree', 'flower', 'run', 'jump', 'swim',
-    'read', 'write', 'happy', 'sad', 'fast', 'slow', 'big', 'small', 'computer',
-    'phone', 'water', 'food', 'sun', 'moon', 'bird', 'book', 'chair', 'table',
-    // Include more words from different categories
-  ];
-
-  // Shuffle distractor words
-  const shuffledDistractorWords = distractorWords.sort(() => Math.random() - 0.5);
-
-  const translationPromises = shuffledDistractorWords.map(word =>
+  const randomWords = await fetchRandomWords(4);
+  const translationPromises = randomWords.map(word =>
     getTranslatedText(word, 'en', targetLanguage)
   );
 
   const translatedWords = await Promise.all(translationPromises);
 
   const distractors = translatedWords
-    .filter(translatedWord =>
-      translatedWord &&
-      translatedWord !== correctTranslation
+    .filter(
+      translatedWord => translatedWord && translatedWord !== correctTranslation
     )
-    .slice(0, 3); // Take first 3 valid distractors
+    .slice(0, 3); // Ensure exactly 3 distractors
 
   return distractors;
 }
 
+async function generateSentenceDistractors(correctTranslation, targetLanguage) {
+  const distractorSentences = [
+    'I am learning to code.',
+    'It is a beautiful day.',
+    'Can you help me with this?',
+    'Where are you going?',
+    'This is a challenging problem.',
+    'I dont like weather today.',
+    'How was your day today?',
+    'I like reading books.',
+    'I do not want to go to school.',
+    'Python is the most popular programming language.',
+  ];
+
+  const shuffledSentences = distractorSentences.sort(() => Math.random() - 0.5);
+
+  const translationPromises = shuffledSentences.map(sentence =>
+    getTranslatedText(sentence, 'en', targetLanguage)
+  );
+
+  const translatedSentences = await Promise.all(translationPromises);
+
+  const sentence_distractors = translatedSentences
+    .filter(translatedSentence =>
+      translatedSentence && translatedSentence !== correctTranslation
+    )
+    .slice(0, 3); // Limit to 3 distractors
+
+  return sentence_distractors;
+}//end
+
+// Quiz Component
 const Quiz = () => {
-  // State variables
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState('Spanish');
+  const [selectedCategory, setSelectedCategory] = useState('translation');
   const [score, setScore] = useState(0);
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isQuizStarted, setIsQuizStarted] = useState(false);
+  const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
 
-  // Function to load quiz questions
   const loadQuiz = async () => {
     setLoading(true);
     try {
-      const newQuestions = await quizService.generateQuiz(selectedLanguage);
+      const newQuestions = await quizService.generateQuiz(selectedLanguage, selectedCategory);
       setQuestions(newQuestions);
       setCurrentQuestionIndex(0);
       setScore(0);
       setIsQuizFinished(false);
+      setShowCorrectAnswers(false);
     } catch (error) {
       console.error('Error loading quiz:', error);
     }
@@ -145,7 +194,7 @@ const Quiz = () => {
     if (isQuizStarted) {
       loadQuiz();
     }
-  }, [selectedLanguage, isQuizStarted]);
+  }, [selectedLanguage, selectedCategory, isQuizStarted]);
 
   const handleOptionClick = (isCorrect) => {
     if (isCorrect) {
@@ -159,7 +208,7 @@ const Quiz = () => {
   };
 
   const handleRestart = () => {
-    setIsQuizStarted(false); // Reset quiz start state
+    setIsQuizStarted(false);
     setIsQuizFinished(false);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -178,41 +227,53 @@ const Quiz = () => {
           <select
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
-            disabled={isQuizStarted} // Disable changing language during the quiz
+            disabled={isQuizStarted}
           >
             <option value="Spanish">Spanish</option>
             <option value="French">French</option>
             <option value="German">German</option>
-            {/* Add more languages here */}
+            <option value="Russian">Russian</option>
+            <option value="Arabic">Arabic</option>
+          </select>
+        </div>
+        <div className="category-selection">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            disabled={isQuizStarted}
+          >
+            <option value="translation">Word Translation</option>
+            <option value="sentence_translation">Sentence Translation</option>
           </select>
         </div>
       </div>
-
       {!isQuizStarted ? (
         <div className="start-quiz-section">
           <button onClick={() => setIsQuizStarted(true)}>Start Quiz</button>
         </div>
       ) : isQuizFinished ? (
         <div className="score-section">
-          <h2>
-            Your Score: {score} out of {questions.length}
-          </h2>
+          <h2>Your Score: {score} out of {questions.length}</h2>
           <button onClick={handleRestart}>Restart Quiz</button>
+          <button onClick={() => setShowCorrectAnswers(true)}>Show Correct Answers</button>
+          {showCorrectAnswers && (
+            <div className="correct-answers-section">
+              <h3>Correct Answers:</h3>
+              <ul>
+                {questions.map((q, index) => (
+                  <li key={index}>{q.question} - <strong>{q.correctAnswer}</strong></li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       ) : (
         <div className="question-section">
-          <div className="question-count">
-            Question {currentQuestionIndex + 1} of {questions.length}
-          </div>
-          <div className="question-text">
-            {questions[currentQuestionIndex].question}
-          </div>
+          <div className="question-count">Question {currentQuestionIndex + 1} of {questions.length}</div>
+          <div className="question-text">{questions[currentQuestionIndex].question}</div>
           <div className="answer-options">
             {questions[currentQuestionIndex].options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleOptionClick(option.isCorrect)}
-              >
+              <button key={index} onClick={() => handleOptionClick(option.isCorrect)}>
                 {option.text}
               </button>
             ))}
