@@ -68,6 +68,13 @@
     <button class="translate-button" id="translateButton">Translate</button>
   </div>
 
+  <div class="audio-recorder-container">
+    <h1 class="audio-recorder-title">Audio Recorder</h1>
+    <button class="record-button" id="recordButton">Start Recording</button>
+    <p class="status-text" id="status">Status: Idle</p>
+    <audio class="audio-playback" id="audioPlayback" controls></audio>
+</div>
+
   <script>
     // Function to update character count dynamically as the user types
     function updateCharCount(textareaId, charCountId) {
@@ -169,6 +176,71 @@
         progressBar.value = 100; // Ensure progress bar is full when the audio ends
       });
     });
+
+    const recordButton = document.getElementById('recordButton');
+    const status = document.getElementById('status');
+    const audioPlayback = document.getElementById('audioPlayback');
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    recordButton.addEventListener('click', async () => {
+      if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        // Start recording
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        audioChunks = [];
+
+        // Playback the recorded audio
+        const audioUrl = URL.createObjectURL(audioBlob);
+        audioPlayback.src = audioUrl;
+
+        // Ensure the audio element is reloaded with the new source
+        audioPlayback.load();
+        audioPlayback.play().catch(error => {
+            console.error('Error playing audio:', error);
+            status.innerText = "Status: Error playing audio";
+        });
+
+        // Upload audio to the server
+        try {
+            status.innerText = "Status: Uploading recording...";
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'recorded_audio.wav');
+
+            const response = await fetch('http://127.0.0.1:5000/upload_audio', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                status.innerText = "Status: Recording saved (previous recording replaced)";
+            } else {
+                status.innerText = "Status: Error uploading recording";
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            status.innerText = "Status: Error uploading recording";
+        }
+      };
+
+        mediaRecorder.start();
+        recordButton.innerText = "Stop Recording";
+        status.innerText = "Status: Recording...";
+    } else {
+          // Stop recording
+          mediaRecorder.stop();
+          recordButton.innerText = "Start Recording";
+          status.innerText = "Status: Processing...";
+      }
+      });
   </script>
 </body>
 </html>
