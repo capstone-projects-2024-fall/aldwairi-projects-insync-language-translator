@@ -3,9 +3,48 @@ from flask_cors import CORS
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from gtts import gTTS
 import os
+from google.cloud import speech
+import os
+import io
+
+# Define upload folder
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/upload_audio', methods=['POST'])
+def upload_audio():
+    # Check if the audio file is part of the request
+    if 'audio' not in request.files:
+        return jsonify({"error": "No audio file part"}), 400
+
+    audio_file = request.files['audio']
+    
+    if audio_file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    # Create uploads directory if it doesn't exist
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    
+    # Save file in uploads directory
+    file_path = os.path.join(UPLOAD_FOLDER, audio_file.filename)
+    audio_file.save(file_path)
+
+    # Return a success message with the saved file path
+    return jsonify({"message": f"Audio uploaded and saved as {file_path}"}), 200
+
+
+def convertSpeechtoText():
+    #setting Google credential
+    os.environ['service-account@insync-project.iam.gserviceaccount.com']= 'google_secret_key.json'
+    # create client instance 
+    client = speech.SpeechClient()
+    #the path of your audio file
+    file_name = "OSR_us_000_0010_8k.wav"
+    with io.open(file_name, "rb") as audio_file:
+        content = audio_file.read()
+        audio = speech.RecognitionAudio(content=content)
 
 # def detect_lang(article):
     # from langdetect import detect
