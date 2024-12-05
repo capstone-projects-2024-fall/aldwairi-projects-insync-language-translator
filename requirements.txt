@@ -7,5 +7,5 @@ torchvision
 fasttext-langdetect
 gtts
 google-cloud-speech
-portaudio
+#portaudio (Must be installed separately using brew)
 pyaudio
