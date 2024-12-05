@@ -1,10 +1,10 @@
-/*style.css*/
 body {
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: sans-serif;
-    line-height: 1.5;
+    line-height: 1.8; /* Increased line-height for better readability */
+    font-size: 18px; /* Set a base font size */
     min-height: 100vh;
     background: #f3f3f3;
     flex-direction: column;
@@ -15,39 +15,46 @@ body {
     background-color: #fff;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 10px 20px;
+    padding: 20px 30px; /* Increased padding */
     transition: transform 0.2s;
-    width: 500px;
+    width: 1000px;
     text-align: center;
 }
 
 h1 {
     color: #4CAF50;
+    font-size: 35px; /* Increased font size */
+}
+
+h3 {
+    font-size: 24px; /* Added styling for h3 */
+    margin-bottom: 25px;
 }
 
 label {
     display: block;
     width: 100%;
     margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px; /* Adjusted margin for consistency */
     text-align: left;
     color: #555;
     font-weight: bold;
+    font-size: 25px; /* Increased font size */
 }
-
 
 input {
     display: block;
     width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
+    margin-bottom: 20px; /* Increased margin for better spacing */
+    padding: 15px; /* Increased padding for input fields */
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 25px; /* Increased font size */
 }
 
 button {
-    padding: 15px;
+    padding: 20px; /* Increased padding for better click area */
     border-radius: 10px;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -56,7 +63,7 @@ button {
     cursor: pointer;
     background-color: #4CAF50;
     width: 100%;
-    font-size: 16px;
+    font-size: 30px; /* Increased font size */
 }
 
 .wrap {
@@ -69,4 +76,13 @@ button {
     color: red;
     display: none;
     margin-top: 10px;
+    font-size: 25px; /* Increased font size */
+}
+
+p {
+    font-size: 25px; /* Adjusted for readability */
+}
+
+a {
+    font-size: 25px; /* Adjusted for readability */
 }
