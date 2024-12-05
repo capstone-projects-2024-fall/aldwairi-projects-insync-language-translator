@@ -7,7 +7,7 @@ from google.cloud import speech
 import os
 import io
 
-# Define upload folder
+
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 
 app = Flask(__name__)
@@ -31,53 +31,65 @@ def upload_audio():
     file_path = os.path.join(UPLOAD_FOLDER, "recorded_audio.wav")
     audio_file.save(file_path)
 
-    # Return a success message with the saved file path
+
     return jsonify({"message": "Audio uploaded and saved"}), 200
 
-
-def convertSpeechtoText():
-    #setting Google credential
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(os.getcwd(), 'google_secret_key.json')
-    # create client instance 
-    client = speech.SpeechClient()
-    #the path of your audio file
-    file_name = os.path.join(UPLOAD_FOLDER, "recorded_audio.wav")
-    with io.open(file_name, "rb") as audio_file:
-        content = audio_file.read()
-        audio = speech.RecognitionAudio(content=content)
-    config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=16000,
-        enable_automatic_punctuation=True,
-        audio_channel_count=1,
-        language_code="en-US",
-    )
-    # Sends the request to google to transcribe the audio
-    response = client.recognize(request={"config": config, "audio": audio})
-    # Reads the response
-    for result in response.results:
-        transcript = result.alternatives[0].transcript
-        print("Transcript:", transcript)
-        return transcript
-    return "No speech detected"
+# Language mapping for Speech-to-Text
+SPEECH_LANGUAGE_MAP = {
+    "spa_Latn": "es-ES",  # Spanish
+    "fra_Latn": "fr-FR",  # French
+    "rus_Cyrl": "ru-RU",  # Russian
+    "amh_Ethi": "am-ET",  # Amharic
+    "zho_Hant": "zh",     # Mandarin
+    "afr_Latn": "af-ZA",  # Afrikaans
+    "deu_Latn": "de-DE",  # German
+}
 
 @app.route('/get_transcript', methods=['GET'])
 def get_transcript():
     try:
-        transcript = convertSpeechtoText()
+        language = request.args.get('language', 'eng_Latn')  # Default to English if not specified
+        transcript = convertSpeechtoText(language)
         return jsonify({"transcript": transcript}), 200
     except Exception as e:
         print(f"Error getting transcript: {e}")
         return jsonify({"error": str(e)}), 500
 
-# def detect_lang(article):
-    # from langdetect import detect
-    # result = detect("ሰላም እንደምን አለህ")
-    # print(result)
+def convertSpeechtoText(language):
+    try:
+        #setting Google credential
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(os.getcwd(), 'google_secret_key.json')
+        # create client instance 
+        client = speech.SpeechClient()
+        #the path of your audio file
+        file_name = os.path.join(UPLOAD_FOLDER, "recorded_audio.wav")
+        with io.open(file_name, "rb") as audio_file:
+            content = audio_file.read()
+            audio = speech.RecognitionAudio(content=content)
+            
+        # Get the appropriate language code
+        speech_language = SPEECH_LANGUAGE_MAP.get(language, "en-US")
+            
+        config = speech.RecognitionConfig(
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+            sample_rate_hertz=16000,
+            enable_automatic_punctuation=True,
+            audio_channel_count=1,
+            language_code=speech_language,
+        )
+        # Sends the request to google to transcribe the audio
+        response = client.recognize(request={"config": config, "audio": audio})
+        # Reads the response
+        for result in response.results:
+            transcript = result.alternatives[0].transcript
+            print(f"Transcript ({speech_language}):", transcript)
+            return transcript
+        return "No speech detected"
+    except Exception as e:
+        print(f"Error in speech to text conversion: {e}")
+        return f"Error: {str(e)}"
 
-#Initialize translation model
 # Initialize translation model
-
 tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
 model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M")
 
