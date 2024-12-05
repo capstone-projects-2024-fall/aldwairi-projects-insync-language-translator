@@ -71,7 +71,19 @@
 
   <div class="audio-recorder-container">
     <h1 class="audio-recorder-title">Audio Recorder</h1>
-    <button class="record-button" id="recordButton">Start Recording</button>
+    <div class="speech-controls">
+        <select id="speechLanguageDropdown" class="language-dropdown" aria-label="Select speech language">
+            <option value="eng_Latn">English</option>
+            <option value="spa_Latn">Spanish</option>
+            <option value="fra_Latn">French</option>
+            <option value="rus_Cyrl">Russian</option>
+            <option value="amh_Ethi">Amharic</option>
+            <option value="zho_Hant">Traditional Mandarin</option>
+            <option value="afr_Latn">Afrikaans</option>
+            <option value="deu_Latn">German</option>
+        </select>
+        <button class="record-button" id="recordButton">Start Recording</button>
+    </div>
     <p class="status-text" id="status">Status: Idle</p>
     <audio class="audio-playback" id="audioPlayback" controls></audio>
     <div class="transcript-box">
@@ -149,7 +161,6 @@
       .then(data => {
         if (data.status === 'success') {
           alert('Translation saved successfully!');
-          // Optionally disable the Save button again
           document.getElementById('saveBtn').disabled = true;
         } else {
           alert('Error saving translation: ' + data.error);
@@ -178,7 +189,7 @@
       // Stop updating when the audio finishes
       audioPlayer.addEventListener('ended', function() {
         clearInterval(intervalId);
-        progressBar.value = 100; // Ensure progress bar is full when the audio ends
+        progressBar.value = 100; 
       });
     });
 
@@ -249,7 +260,9 @@
           .then(response => {
             if (response.ok) {
               status.textContent = "Status: Getting transcript...";
-              return fetch('http://127.0.0.1:5000/get_transcript');
+              // Get selected speech language
+              const selectedSpeechLang = document.getElementById('speechLanguageDropdown').value;
+              return fetch(`http://127.0.0.1:5000/get_transcript?language=${selectedSpeechLang}`);
             } else {
               throw new Error('Upload failed');
             }
@@ -257,7 +270,9 @@
           .then(response => response.json())
           .then(data => {
             transcriptBox.value = data.transcript;
-            status.textContent = "Status: Transcript ready";
+            document.getElementById('inputText').value = data.transcript;
+            updateCharCount('inputText', 'inputCharCount');
+            status.textContent = "Status: Transcript ready for translation";
           })
           .catch(error => {
             console.error('Error:', error);
