@@ -28,23 +28,47 @@ def upload_audio():
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     
     # Save file in uploads directory
-    file_path = os.path.join(UPLOAD_FOLDER, audio_file.filename)
+    file_path = os.path.join(UPLOAD_FOLDER, "recorded_audio.wav")
     audio_file.save(file_path)
 
     # Return a success message with the saved file path
-    return jsonify({"message": f"Audio uploaded and saved as {file_path}"}), 200
+    return jsonify({"message": "Audio uploaded and saved"}), 200
 
 
 def convertSpeechtoText():
     #setting Google credential
-    os.environ['service-account@insync-project.iam.gserviceaccount.com']= 'google_secret_key.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(os.getcwd(), 'google_secret_key.json')
     # create client instance 
     client = speech.SpeechClient()
     #the path of your audio file
-    file_name = "OSR_us_000_0010_8k.wav"
+    file_name = os.path.join(UPLOAD_FOLDER, "recorded_audio.wav")
     with io.open(file_name, "rb") as audio_file:
         content = audio_file.read()
         audio = speech.RecognitionAudio(content=content)
+    config = speech.RecognitionConfig(
+        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+        sample_rate_hertz=16000,
+        enable_automatic_punctuation=True,
+        audio_channel_count=1,
+        language_code="en-US",
+    )
+    # Sends the request to google to transcribe the audio
+    response = client.recognize(request={"config": config, "audio": audio})
+    # Reads the response
+    for result in response.results:
+        transcript = result.alternatives[0].transcript
+        print("Transcript:", transcript)
+        return transcript
+    return "No speech detected"
+
+@app.route('/get_transcript', methods=['GET'])
+def get_transcript():
+    try:
+        transcript = convertSpeechtoText()
+        return jsonify({"transcript": transcript}), 200
+    except Exception as e:
+        print(f"Error getting transcript: {e}")
+        return jsonify({"error": str(e)}), 500
 
 # def detect_lang(article):
     # from langdetect import detect
