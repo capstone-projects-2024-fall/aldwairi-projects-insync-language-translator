@@ -11,9 +11,9 @@ body {
 }
 
 .quiz-container {
-  margin-top: 200px; /* Ensure there's space between the navbar and quiz container */
-  max-width: 900px; /* Adjusted for consistency */
-  padding: 40px; /* Increased padding */
+  margin-top: 100px; /* Ensure there's space between the navbar and quiz container */
+  max-width: 1200px; /* Adjusted for consistency */
+  padding: 80px; /* Increased padding */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -27,12 +27,12 @@ body {
 
 .quiz-title h1 {
   margin: 0;
-  font-size: 3.5rem; /* Increased from 3rem */
+  font-size: 4.0rem; /* Increased from 3rem */
   font-weight: bold; /* Added emphasis */
 }
 
 .quiz-title p {
-  margin-top: 15px;
+  margin-top: 30px;
   color: #6c757d;
   font-size: 1.8rem; /* Increased from 1.5rem */
 }
@@ -54,7 +54,7 @@ select {
   padding: 18px; /* Increased padding */
   border: 1px solid #007bff;
   border-radius: 8px; /* More rounded */
-  font-size: 1.5rem; /* Increased font size */
+  font-size: 2.0rem; /* Increased font size */
   background-color: #f8f9fa;
   transition: border-color 0.3s;
 }
@@ -92,7 +92,7 @@ select:focus {
 }
 
 .question-count {
-  font-size: 1.5rem; /* Increased from 1.2rem */
+  font-size: 2.0rem; /* Increased from 1.2rem */
   color: #6c757d;
   margin-bottom: 20px; /* Increased from 15px */
 }
@@ -111,7 +111,7 @@ select:focus {
   border-radius: 8px; /* Adjusted for more rounded corners */
   background-color: #ffffff;
   color: #007bff;
-  font-size: 1.5rem; /* Increased from 1.2rem */
+  font-size: 2.0rem; /* Increased from 1.2rem */
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -163,7 +163,7 @@ select:focus {
   border: 1px solid #007bff; /* Matching border style */
   border-radius: 8px; /* Rounded corners for consistency */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for emphasis */
-  font-size: 1.5rem; /* Same font size as others */
+  font-size: 2.0rem; /* Same font size as others */
   line-height: 1.8; /* Increased line height for readability */
 }
 
