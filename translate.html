@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Translation Center | InSync</title>
   <link rel="stylesheet" href="styles/homepage.css">
+  <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -73,6 +74,10 @@
     <button class="record-button" id="recordButton">Start Recording</button>
     <p class="status-text" id="status">Status: Idle</p>
     <audio class="audio-playback" id="audioPlayback" controls></audio>
+    <div class="transcript-box">
+        <h2>Transcript</h2>
+        <textarea id="transcriptBox" readonly placeholder="Your speech will appear here..."></textarea>
+    </div>
 </div>
 
   <script>
@@ -180,68 +185,87 @@
     const recordButton = document.getElementById('recordButton');
     const status = document.getElementById('status');
     const audioPlayback = document.getElementById('audioPlayback');
+    const transcriptBox = document.getElementById('transcriptBox');
 
-    let mediaRecorder;
-    let audioChunks = [];
+    let isRecording = false;
+    let recorder;
+    let audioStream;
 
     recordButton.addEventListener('click', async () => {
-      if (!mediaRecorder || mediaRecorder.state === "inactive") {
-        // Start recording
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-
-        mediaRecorder.ondataavailable = event => {
-            audioChunks.push(event.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        audioChunks = [];
-
-        // Playback the recorded audio
-        const audioUrl = URL.createObjectURL(audioBlob);
-        audioPlayback.src = audioUrl;
-
-        // Ensure the audio element is reloaded with the new source
-        audioPlayback.load();
-        audioPlayback.play().catch(error => {
-            console.error('Error playing audio:', error);
-            status.innerText = "Status: Error playing audio";
-        });
-
-        // Upload audio to the server
+      if (!isRecording) {
         try {
-            status.innerText = "Status: Uploading recording...";
-            const formData = new FormData();
-            formData.append('audio', audioBlob, 'recorded_audio.wav');
-
-            const response = await fetch('http://127.0.0.1:5000/upload_audio', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                status.innerText = "Status: Recording saved (previous recording replaced)";
-            } else {
-                status.innerText = "Status: Error uploading recording";
+          // Start recording
+          audioStream = await navigator.mediaDevices.getUserMedia({ 
+            audio: {
+              channelCount: 1,
+              sampleRate: 16000
             }
-        } catch (error) {
-            console.error('Upload error:', error);
-            status.innerText = "Status: Error uploading recording";
-        }
-      };
+          });
+          
+          recorder = new RecordRTC(audioStream, {
+            type: 'audio',
+            mimeType: 'audio/wav',
+            recorderType: RecordRTC.StereoAudioRecorder,
+            numberOfAudioChannels: 1,
+            desiredSampRate: 16000
+          });
 
-        mediaRecorder.start();
-        recordButton.innerText = "Stop Recording";
-        status.innerText = "Status: Recording...";
-    } else {
-          // Stop recording
-          mediaRecorder.stop();
-          recordButton.innerText = "Start Recording";
-          status.innerText = "Status: Processing...";
+          recorder.startRecording();
+          isRecording = true;
+          recordButton.textContent = "Stop Recording";
+          status.textContent = "Status: Recording...";
+          
+        } catch (error) {
+          console.error('Error starting recording:', error);
+          status.textContent = "Status: Error starting recording";
+        }
+      } else {
+        // Stop recording
+        isRecording = false;
+        recordButton.textContent = "Start Recording";
+        status.textContent = "Status: Processing...";
+        
+        recorder.stopRecording(function() {
+          const blob = recorder.getBlob();
+          
+          // Stop all tracks
+          audioStream.getTracks().forEach(track => track.stop());
+          
+          // Play the recording
+          audioPlayback.src = URL.createObjectURL(blob);
+          audioPlayback.load();
+          audioPlayback.play().catch(error => {
+            console.error('Error playing audio:', error);
+          });
+
+          // Upload the recording
+          const formData = new FormData();
+          formData.append('audio', blob, 'recording.wav');
+
+          fetch('http://127.0.0.1:5000/upload_audio', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => {
+            if (response.ok) {
+              status.textContent = "Status: Getting transcript...";
+              return fetch('http://127.0.0.1:5000/get_transcript');
+            } else {
+              throw new Error('Upload failed');
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            transcriptBox.value = data.transcript;
+            status.textContent = "Status: Transcript ready";
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            status.textContent = "Status: Error processing audio";
+          });
+        });
       }
-      });
+    });
   </script>
 </body>
 </html>
-
