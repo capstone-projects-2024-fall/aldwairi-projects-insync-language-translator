@@ -31,8 +31,6 @@ const connection = mysql.createConnection({
     port: 3306
 });
 
-
-
 connection.connect((err)=> {
     if (err) {
         console.error('Error connecting to the database:', err);
@@ -43,7 +41,7 @@ connection.connect((err)=> {
 
 // Serve HTML pages
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/login.html");
+    res.sendFile(__dirname + "/views/login.html");
 });
 
 // Handle login
@@ -67,42 +65,37 @@ app.post("/", encoder, (req, res) => {
 
 //when login success
 app.get("/homepage", function (req, res) {
-    res.sendFile(__dirname + "/homepage.html");
+    res.sendFile(__dirname + "/views/homepage.html");
 })
 
 //Serve translate page
 app.get("/translate", function (req, res){
-    res.sendFile(__dirname + "/translate.html");
+    res.sendFile(__dirname + "/views/translate.html");
 })
-
-//Serve history page
-//app.get("/history", function (req, res){
-  //  res.sendFile(__dirname + "/history.html");
-//})
 
 //Serve learn page
 app.get("/learn", function (req, res){
-    res.sendFile(__dirname + "/learn.html");
+    res.sendFile(__dirname + "/views/learn.html");
 })
 
 //Serve flashcard page
 app.get("/flashcard", function (req, res){
-    res.sendFile(__dirname + "/flashcards.html");
+    res.sendFile(__dirname + "/views/flashcards.html");
 })
 
 //Serve dictionary page
 app.get("/dictionary", function (req, res){
-    res.sendFile(__dirname + "/dictionary.html");
+    res.sendFile(__dirname + "/views/dictionary.html");
 })
 
 //Serve quiz page
 app.get("/quiz", function (req, res){
-    res.sendFile(__dirname + "/Quiz.html");
+    res.sendFile(__dirname + "/views/Quiz.html");
 })
 
 //Serve Tutorial page
 app.get("/tutorial", function (req, res){
-    res.sendFile(__dirname + "/tutorial.html");
+    res.sendFile(__dirname + "/views/tutorial.html");
 })
 
 // Serve profile page
@@ -147,7 +140,7 @@ app.post("/profile/update", encoder, (req, res) => {
 
 //Serve signup page
 app.get("/signup", (req, res) => {
-    res.sendFile(__dirname + "/signup.html");
+    res.sendFile(__dirname + "/views/signup.html");
 });
 
 // Handle signup
