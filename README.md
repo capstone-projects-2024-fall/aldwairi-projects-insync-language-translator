@@ -1,6 +1,12 @@
 # InSync Language Translator
 InSync Language Translator is an innovative application designed to enhance multilingual communication and learning. It combines real-time translation capabilities with interactive features like voice and text translation, a learn mode, as well as vocabulary-building quizzes and dictionary. The app is built with a user-friendly interface and modern tools to make language learning and communication seamless and engaging.
 
+# Features
+- Real time language translation (voice and text)
+- Learn Mode (Video tutorials, Flashcards, Quizzes, Auto-Detect Dictionary)
+- Translation History
+- Editable Account Information
+
 # Installation Prerequisites
 - IDE (Visual Studio Code Preferred)
 - Python 3.10+ installed
